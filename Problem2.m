@@ -1,1 +1,2 @@
-WhiteNoise(10, .1)
+[noise, rks] = WhiteNoise(10, .01);
+plot(rks)
