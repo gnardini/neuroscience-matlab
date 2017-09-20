@@ -35,8 +35,7 @@ function spikes = GenerateSpikes(shots, time, dt)
     spikes = zeros(ceil(time / dt), 1);
     for i = shots
         j = ceil(i / dt);
-        aux = spikes(j);
-        spikes(j) = aux + 1;
+        spikes(j) = spikes(j) + 1;
     end
 end
 
