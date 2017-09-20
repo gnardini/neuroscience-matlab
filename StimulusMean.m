@@ -9,5 +9,5 @@ function stimMean = StimulusMean(rho, stim, tao)
             stimMean = stimMean + stim(startRange:endRange);
         end
     end
+    stimMean = stimMean / totalShots;
 end
-
