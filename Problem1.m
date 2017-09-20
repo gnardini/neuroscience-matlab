@@ -1,35 +1,28 @@
-expected = [];
-variance = [];
-sigma = [];
-varCoef = [];
-fano = [];
-for i = 1:1:100
-    deltaTime = i /1000.0; % pasar a segundos.
-    [spikes, times] = PoissonGenerator(10, 100, deltaTime);
-    diffs = diff(times);
-    mean1 = mean(spikes);
-    if ~isnan(mean1)
-        expected = [expected, mean1];
-        variance = [variance, var(spikes)];
-        sigma = [sigma, std(diffs)];
-        fanoo = var(spikes) / mean(spikes);
-%         Falta extrapolarlo a un gráfico. Arreglar un poco esto que es
-%         horrible
-        varCoef = [varCoef, std(diffs) / mean(diffs)]; 
-        fano = [fano, fanoo];
-    end
+maxInterval = 100;
+fanoComponents =zeros(maxInterval, 2);
+varCoefComponents = zeros(maxInterval, 2);
+varCoef = zeros(maxInterval, 1);
+fano = zeros(maxInterval, 1);
+diffsShots = [];
+for i = 1:maxInterval
+    % Change time to ms. 
+    deltaTime = i /1000.0; 
+    [spikes, shots] = PoissonGenerator(10, 100, deltaTime);
+    [varCoefComponents(i, 1), varCoefComponents(i, 2), varCoef(i)] = VariabilityCoefficient(shots);
+    [fanoComponents(i, 1), fanoComponents(i, 2), fano(i)] = ExpectedValue(spikes);
+    diffsShots = [diffsShots, diff(shots)];
 end
 
-% histogram(acumulated, 100);
+% Plots
+figure(); 
+histogram(diffsShots);
 
-% plot(varCoef, 'x');
+figure(); 
+histogram(spikes);
 
+figure(); 
+FunctionPlot(varCoefComponents(:, 2), varCoefComponents(:, 1), 'Coeficiente de Variación', 'Esperanza', 'Desvío estándar');
 
-p = polyfit(expected, variance, 1)
-y1 = polyval(p,expected);
-  
-plot(expected, variance,'o');
-hold on 
-plot(expected,y1)
-hold off
+figure(); 
+FunctionPlot(fanoComponents(:, 2), fanoComponents(:, 1), 'Coeficiente de Fano', 'Esperanza', 'Varianza');
 

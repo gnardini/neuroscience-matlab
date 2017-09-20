@@ -1,7 +1,7 @@
 function [spikes, shots] = PoissonGenerator(time, rate, dt)
     shots = [];
     lastTime = 0;
-    lambda = rate * dt;
+    lambda = rate;
     while lastTime <= time
         lastTime = lastTime + NextTime(lambda);
         if lastTime < time
@@ -30,7 +30,6 @@ end
 %         spikes = [spikes, value];
 %     end
 % end
-
 
 function spikes = GenerateSpikes(shots, time, dt)
     spikes = zeros(ceil(time / dt), 1);
