@@ -19,6 +19,7 @@ histogram(diffsShots);
 
 figure(); 
 histogram(spikes);
+sum(spikes)
 
 figure(); 
 FunctionPlot(varCoefComponents(:, 2), varCoefComponents(:, 1), 'Coeficiente de Variación', 'Esperanza', 'Desvío estándar');
