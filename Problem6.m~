@@ -11,8 +11,8 @@ load('tuning.mat');
 % Get c coeffcients
 c1 = c_values(stim(max_idx_1));
 c2 = c_values(stim(max_idx_2));
-c3 = c_values(stim(max_idx_3));
-c4 = c_values(stim(max_idx_4));
+c3 = [sind(stim(max_idx_3)), cosd(stim(max_idx_3))];
+c4 = [sind(stim(max_idx_4)), cosd(stim(max_idx_4))];
 c = [c1; c2; c3; c4];
 r_max = [max_num_1, max_num_2, max_num_3, max_num_4];
 s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c);
@@ -90,7 +90,7 @@ end
 
 function s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c)
     vpop = PopulationVector(mean(neuron1), mean(neuron2), mean(neuron3), mean(neuron4), r_max, c);
-    s = mod(atan2d(vpop(: , 2),vpop(: ,1))' + 360, 360)
+    s = atan2d(vpop(: , 2),vpop(: ,1))'
 end
 
 function c = c_values(tita)
