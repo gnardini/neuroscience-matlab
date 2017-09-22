@@ -4,20 +4,18 @@ load('tuning.mat');
 % Plot means of rates and function to fit it.
 % 
 neuron_count = 4;
-r_maxs = zeros(neuron_count);
-r_maxs_position = zeros(neuron_count);
-titas = zeros(neuron_count);
-neurons = [neuron1; neuron2; neuron3; neuron4];
+r_maxs = zeros(neuron_count, 1);
+r_maxs_position = zeros(neuron_count, 1);
+neurons = [mean(neuron1); mean(neuron2); mean(neuron3); mean(neuron4)];
 for j = 1:neuron_count
-    [r_maxs(j), r_maxs_position(j)] = max(mean(neurons(j, :)));
-    titas(j) = - stim(r_maxs_position(j));
+    [r_maxs(j), r_maxs_position(j)] = max(neurons(j, :));
 end
 
 % Get c coeffcients
 
-c = c_values(titas);
+c = c_values();
 s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_maxs, c);
-err = ((stim - s).^2)/24;
+err = abs(stim - s);
 
 figure();
 plot (stim, err);
@@ -96,10 +94,10 @@ function s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c)
     s = mod(atan2d(vpop(: , 2),vpop(: ,1)) + 360, 360)'
 end
 
-function c = c_values(titas)
+function c = c_values()
 	c1 = [cosd(45), sind(45)];
     c2 = [-cosd(45), sind(45)];
     c3 = [-cosd(45), -sind(45)];
     c4 = [cosd(45), -sind(45)];
-    c = [c1 / norm(c1); c2 / norm(c2); c3/norm(c3); c4/norm(c4)];
+    c = [c1/norm(c1); c2 / norm(c2); c3/norm(c3); c4/norm(c4)];
 end
