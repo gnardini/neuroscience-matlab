@@ -3,20 +3,25 @@ load('tuning.mat');
 % 
 % Plot means of rates and function to fit it.
 % 
-[max_num_1, max_idx_1] = max(mean(neuron1));
-[max_num_2, max_idx_2] = max(mean(neuron2));
-[max_num_3, max_idx_3] = max(mean(neuron3));
-[max_num_4, max_idx_4] = max(mean(neuron4));
+neuron_count = 4;
+r_maxs = zeros(neuron_count);
+r_maxs_position = zeros(neuron_count);
+titas = zeros(neuron_count);
+neurons = [neuron1; neuron2; neuron3; neuron4];
+for j = 1:neuron_count
+    [r_maxs(j), r_maxs_position(j)] = max(mean(neurons(j, :)));
+    titas(j) = - stim(r_maxs_position(j));
+end
 
 % Get c coeffcients
-c1 = c_values(stim(max_idx_1));
-c2 = c_values(stim(max_idx_2));
-c3 = [sind(stim(max_idx_3)), cosd(stim(max_idx_3))];
-c4 = [sind(stim(max_idx_4)), cosd(stim(max_idx_4))];
-c = [c1; c2; c3; c4];
-r_max = [max_num_1, max_num_2, max_num_3, max_num_4];
-s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c);
-stim - s
+
+c = c_values(titas);
+s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_maxs, c);
+err = abs(stim - s)
+
+figure();
+plot (stim, err);
+
 % 
 % % Graph of means of neurons 
 % hold on 
@@ -73,31 +78,28 @@ stim - s
 % FunctionPlot(expected4, variance4, 'Neuron 4', 'Mean', 'Var');
 
 
-% aasd = stim - mod(vpop, 360)
-% abs(stim - mod(mod(vpop, 360) + 360, 360))
-
 % Generate rates
 
 % Population vector
 
-function vpop = PopulationVector(neuron1, neuron2, neuron3, neuron4, r_max, c)
-    neuron1 = neuron1' / r_max(1) * c(1, :);
-    neuron2 = neuron2' / r_max(2) * c(2, :);
-    neuron3 = neuron3' / r_max(3) * c(3, :);
-    neuron4 = neuron4' / r_max(4) * c(4, :);
-    vpop = neuron1 + neuron2 + neuron3 + neuron4;
+function vpop = PopulationVector(means, r_max, c)
+    [differentsNeurons, s_size] = size(means);
+    vpop = zeros(s_size, 2);
+    for i = 1:differentsNeurons
+        vpop = vpop + means(i, :)' / r_max(i) * c(i, :);
+    end
 end
 
 function s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c)
-    vpop = PopulationVector(mean(neuron1), mean(neuron2), mean(neuron3), mean(neuron4), r_max, c);
-    s = atan2d(vpop(: , 2),vpop(: ,1))'
+    means = [mean(neuron1(1:10, :)); mean(neuron2(1:10, :)); mean(neuron3(); mean(neuron4)];
+    vpop = PopulationVector(means, r_max, c);
+    s = mod(atan2d(vpop(: , 2),vpop(: ,1)) + 360, 360)'
 end
 
-function c = c_values(tita)
-	v = [1,0];
-	tita = - tita;
-	R = [cosd(tita),-sind(tita);sind(tita),cosd(tita)];
-	c = (v * R);
-	c = c / norm(c);
-
+function c = c_values(titas)
+	c1 = [cosd(45), sind(45)];
+    c2 = [-cosd(45), sind(45)];
+    c3 = [-cosd(45), -sind(45)];
+    c4 = [cosd(45), -sind(45)];
+    c = [c1 / norm(c1); c2/norm(c2); c3/norm(c3); c4/norm(c4)];
 end
