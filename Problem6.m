@@ -101,5 +101,5 @@ function c = c_values(titas)
     c2 = [-cosd(45), sind(45)];
     c3 = [-cosd(45), -sind(45)];
     c4 = [cosd(45), -sind(45)];
-    c = [c1 / norm(c1); c2/norm(c2); c3/norm(c3); c4/norm(c4)];
+    c = [c1 / norm(c1); c2 / norm(c2); c3/norm(c3); c4/norm(c4)];
 end
