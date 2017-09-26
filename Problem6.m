@@ -20,6 +20,9 @@ err = abs(stim - s);
 figure();
 plot (stim, err);
 
+figure();
+plot(s, stim);
+
 % 
 % % Graph of means of neurons 
 % hold on 
@@ -50,7 +53,7 @@ plot (stim, err);
 % % Verify poisson distribution
 % % 
 % 
-% % Neuron 1
+% Neuron 1
 % figure(); 
 % expected1 = mean(neuron1);
 % variance1 = var(neuron1);
@@ -89,7 +92,7 @@ function vpop = PopulationVector(means, r_max, c)
 end
 
 function s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c)
-    means = [mean(neuron1(1:10, :)); mean(neuron2(1:10, :)); mean(neuron3(1:10, :)); mean(neuron4(1:10, :))];
+    means = [mean(neuron1); mean(neuron2); mean(neuron3); mean(neuron4)];
     vpop = PopulationVector(means, r_max, c);
     s = mod(atan2d(vpop(: , 2),vpop(: ,1)) + 360, 360)'
 end
