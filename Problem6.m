@@ -17,35 +17,37 @@ c = c_values();
 s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_maxs, c);
 err = abs(stim - s);
 
-figure();
-plot (stim, err);
+% figure();
+% plot (stim, err, 'x');
+% hold on
+% plot (stim, err, 'Color', 'r');
 
 figure();
-plot(s, stim);
+% plot(s, stim, 'x');
 
 % 
 % % Graph of means of neurons 
-% hold on 
-% plot(stim, mean(neuron1) / max_num_1, 'r');
-% plot(stim, mean(neuron2) / max_num_2, 'b');
-% plot(stim, mean(neuron3) / max_num_3, 'g');
-% plot(stim, mean(neuron4) / max_num_4, 'm');
+ hold on 
+ plot(stim, mean(neuron1) / r_maxs(1), 'r');
+ plot(stim, mean(neuron2) / r_maxs(2), 'b');
+ plot(stim, mean(neuron3) / r_maxs(3), 'g');
+ plot(stim, mean(neuron4) / r_maxs(4), 'm');
 % 
 % % Add cos as fit function
 % 
-% y1 = cosd(stim - c(1));
-% y1(y1<0) = 0;
-% y2 = cosd(stim - c(2));
-% y2(y2<0) = 0;
-% y3 = cosd(stim - c(3));
-% y3(y3<0) = 0;
-% y4 = cosd(stim - c(4));
-% y4(y4<0) = 0;
+y1 = cosd(stim - stim(r_maxs_position(1)));
+y1(y1<0) = 0;
+y2 = cosd(stim - stim(r_maxs_position(2)));
+y2(y2<0) = 0;
+y3 = cosd(stim - stim(r_maxs_position(3)));
+y3(y3<0) = 0;
+y4 = cosd(stim - stim(r_maxs_position(4)));
+y4(y4<0) = 0;
 % 
-% plot(stim, y1, '*', 'Color', 'r');
-% plot(stim, y2, '*', 'Color', 'b');
-% plot(stim, y3, '*', 'Color', 'g');
-% plot(stim, y4, '*', 'Color', 'm');
+plot(stim, y1, '*', 'Color', 'r');
+plot(stim, y2, '*', 'Color', 'b');
+plot(stim, y3, '*', 'Color', 'g');
+plot(stim, y4, '*', 'Color', 'm');
 % 
 % % TODO: is missing to test with liean function or gauss.
 % 
@@ -98,9 +100,11 @@ function s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_max, c)
 end
 
 function c = c_values()
+    % falta aclarar que son los valores que maximizan cada una de las neuronas.      
 	c1 = [cosd(45), sind(45)];
     c2 = [-cosd(45), sind(45)];
     c3 = [-cosd(45), -sind(45)];
     c4 = [cosd(45), -sind(45)];
-    c = [c1/norm(c1); c2 / norm(c2); c3/norm(c3); c4/norm(c4)];
+    % no hace falta calcular la norma porque al trabajar con senos y cosenos ya tiene norma 1.     
+    c = [c1; c2; c3; c4];
 end
