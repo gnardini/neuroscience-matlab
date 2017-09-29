@@ -13,17 +13,22 @@ for i = 1:maxInterval
     diffsShots = [diffsShots, diff(shots)];
 end
 
+fano
+varCoef
 % Plots
-figure(); 
-histogram(diffsShots);
-
-figure(); 
-histogram(spikes);
-sum(spikes)
-
-figure(); 
-FunctionPlot(varCoefComponents(:, 2), varCoefComponents(:, 1), 'Coeficiente de Variación', 'Esperanza', 'Desvío estándar');
-
-figure(); 
-FunctionPlot(fanoComponents(:, 2), fanoComponents(:, 1), 'Coeficiente de Fano', 'Esperanza', 'Varianza');
+% figure(); 
+% [N,X] = hist(diffsShots);
+% bar(X, N,'facecolor', StandarColor());
+% title('Distribución de los tiempos de disparos','fontsize', 14);
+% 
+% figure(); 
+% [N,X] = hist(spikes);
+% bar(X, N,'facecolor', StandarColor());
+% title('Distribución de los disparos por intervalos','fontsize', 14);
+% 
+% figure(); 
+% FunctionPlot(varCoefComponents(:, 2), varCoefComponents(:, 1), 'Coeficiente de Variación', 'Esperanza', 'Desvío estándar');
+% 
+% figure(); 
+% FunctionPlot(fanoComponents(:, 2), fanoComponents(:, 1), 'Coeficiente de Fano', 'Esperanza', 'Varianza');
 

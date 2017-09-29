@@ -1,6 +1,6 @@
 function [noise, rks] = WhiteNoise(time, dt)
     noise = GenerateNoise(time, dt) - .5;
-    [exp, var, coef, fano] = ExpectedValue(noise);
+    [exp, var, fano] = ExpectedValue(noise);
     rks = zeros(1,11);
     for defasaje = 0:10
         rks(defasaje+1) = Autocorrelation(noise, defasaje, exp);
