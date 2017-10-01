@@ -1,5 +1,5 @@
-function [noise, rks] = WhiteNoise(time, dt)
-    noise = GenerateNoise(time, dt) - .5;
+function [noise, rks] = WhiteNoise(time, sigma, dt)
+    noise = GenerateNoise(time, sigma, dt);
     [exp, var, fano] = ExpectedValue(noise);
     rks = zeros(1,11);
     for defasaje = 0:10
@@ -7,20 +7,11 @@ function [noise, rks] = WhiteNoise(time, dt)
     end
 end
 
-function rk = Autocorrelation(noise, defasaje, exp)
-    steps = size(noise);
-    steps = steps(2);
-    rk = 0;
-    for i = (defasaje+1):steps
-        rk = rk + (noise(i-defasaje)-exp) * (noise(i)-exp);
-    end
-end
-
-function noise = GenerateNoise(time, dt)
-    current = 0;
-    noise = [];
-    while (current < time)
-        current = current + dt;
-        noise = [noise, rand];
+function noise = GenerateNoise(time, sigma, dt)
+    m  = ceil(time/dt);
+    noise = zeros(m, 1);
+    sigma = sigma / sqrt(dt);
+    for i = 1 : m
+		noise(i) = normrnd(0 ,sigma);
     end
 end

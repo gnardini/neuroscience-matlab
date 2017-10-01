@@ -17,49 +17,65 @@ c = c_values();
 s = EstimatedStim(neuron1, neuron2, neuron3, neuron4, r_maxs, c);
 err = abs(stim - s);
 
-figure();
-plot (stim, err, 'x', 'Color', );
-hold on
-plot (stim, err, 'Color', 'r');
-
-figure();
-plot(s, stim, 'x');
+% figure();
+% plot (stim, err, 'x', 'Color', StandarColor());
+% hold on
+% plot (stim, err, 'Color', ComplementaryColor());
+% title('Error entre el estímulo generado y el estímulo real', 'fontsize', 14)
+% xlabel('Dirección del viento real [º]','fontsize', 12);
+% ylabel('Error [º]', 'fontsize', 12);
+% 
+% 
+% 
+% figure();
+% plot(s, stim, 'x', 'Color', StandarColor());
+% title('Estímulo generado en función del estímulo real', 'fontsize', 14)
+% xlabel('Dirección del viento [º]','fontsize', 12);
+% ylabel('Estímulo generado [º]', 'fontsize', 12);
 
 
 % 
 % % Add cos as fit function
 % 
-figure()
-hold on 
-plot(stim, mean(neuron1) / r_maxs(1), 'r');
-y1 = cosd(stim - stim(r_maxs_position(1)));
-y1(y1<0) = 0;
-plot(stim, y1, '*', 'Color', 'r');
-title('Neurona 4 aproximada y la función conseno que la aproxima')
-
-figure()
-hold on 
-plot(stim, mean(neuron2) / r_maxs(2), 'b');
-y2 = cosd(stim - stim(r_maxs_position(2)));
-y2(y2<0) = 0;
-plot(stim, y2, '*', 'Color', 'b');
-title('Neurona 4 aproximada y la función conseno que la aproxima')
-
-figure()
-hold on 
-y3 = cosd(stim - stim(r_maxs_position(3)));
-y3(y3<0) = 0;
-plot(stim, y3, '*', 'Color', 'g');
-plot(stim, mean(neuron3) / r_maxs(3), 'g');
-title('Neurona 4 aproximada y la función conseno que la aproxima')
-
-figure()
-hold on 
-plot(stim, mean(neuron4) / r_maxs(4), 'm');
-y4 = cosd(stim - stim(r_maxs_position(4)));
-y4(y4<0) = 0;
-plot(stim, y4, '*', 'Color', 'm');
-title('Neurona 4 aproximada y la función conseno que la aproxima')
+% figure()
+% hold on 
+% plot(stim, mean(neuron1) / r_maxs(1), 'Color', StandarColor());
+% y1 = cosd(stim - stim(r_maxs_position(1)));
+% y1(y1<0) = 0;
+% plot(stim, y1, '*', 'Color', ComplementaryColor());
+% title('Neurona 1 aproximada y la función conseno que la aproxima', 'fontsize', 14)
+% xlabel('Dirección del viento [º]','fontsize', 12);
+% ylabel('r / r_max', 'fontsize', 12);
+% 
+% figure()
+% hold on 
+% plot(stim, mean(neuron2) / r_maxs(2), 'Color', StandarColor());
+% y2 = cosd(stim - stim(r_maxs_position(2)));
+% y2(y2<0) = 0;
+% plot(stim, y2, '*', 'Color', ComplementaryColor());
+% title('Neurona 2 aproximada y la función conseno que la aproxima', 'fontsize', 14)
+% xlabel('Dirección del viento [º]','fontsize', 12);
+% ylabel('r / r_max', 'fontsize', 12);
+% 
+% figure()
+% hold on 
+% y3 = cosd(stim - stim(r_maxs_position(3)));
+% y3(y3<0) = 0;
+% plot(stim, y3, '*', 'Color', StandarColor());
+% plot(stim, mean(neuron3) / r_maxs(3), 'Color', ComplementaryColor());
+% title('Neurona 3 aproximada y la función conseno que la aproxima', 'fontsize', 14)
+% xlabel('Dirección del viento [º]','fontsize', 12);
+% ylabel('r / rmax', 'fontsize', 12);
+% 
+% figure()
+% hold on 
+% plot(stim, mean(neuron4) / r_maxs(4), 'Color', StandarColor());
+% y4 = cosd(stim - stim(r_maxs_position(4)));
+% y4(y4<0) = 0;
+% plot(stim, y4, '*', 'Color', ComplementaryColor());
+% title('Neurona 4 aproximada y la función conseno que la aproxima', 'fontsize', 14)
+% xlabel('Dirección del viento [º]','fontsize', 12);
+% ylabel('r / r_max', 'fontsize', 12);
 
 % 
 % % TODO: is missing to test with liean function or gauss.
@@ -69,29 +85,29 @@ title('Neurona 4 aproximada y la función conseno que la aproxima')
 % % 
 % 
 % Neuron 1
-% figure(); 
-% expected1 = mean(neuron1);
-% variance1 = var(neuron1);
-% FunctionPlot(expected1, variance1, 'Neuron 1', 'Mean', 'Var');
+figure(); 
+expected1 = mean(neuron1);
+variance1 = var(neuron1);
+FunctionPlot(expected1, variance1, 'Neuron 1', 'Mean', 'Var');
 % 
 % % Neuron 2
-% figure(); 
-% expected2 = mean(neuron2);
-% variance2 = var(neuron2);
-% FunctionPlot(expected2, variance2, 'Neuron 2', 'Mean', 'Var');
+figure(); 
+expected2 = mean(neuron2);
+variance2 = var(neuron2);
+FunctionPlot(expected2, variance2, 'Neuron 2', 'Mean', 'Var');
 % 
 % % Neuron 3 - This is not poisson?? TODO: is necessary more information? is
 % % enough 
-% figure(); 
-% expected3 = mean(neuron3);
-% variance3 = var(neuron3);
-% FunctionPlot(expected3, variance3, 'Neuron 3', 'Mean', 'Var');
+figure(); 
+expected3 = mean(neuron3);
+variance3 = var(neuron3);
+FunctionPlot(expected3, variance3, 'Neuron 3', 'Mean', 'Var');
 % 
 % % Neuron 4
-% figure(); 
-% expected4 = mean(neuron4);
-% variance4 = var(neuron4);
-% FunctionPlot(expected4, variance4, 'Neuron 4', 'Mean', 'Var');
+figure(); 
+expected4 = mean(neuron4);
+variance4 = var(neuron4);
+FunctionPlot(expected4, variance4, 'Neuron 4', 'Mean', 'Var');
 
 
 % Generate rates
