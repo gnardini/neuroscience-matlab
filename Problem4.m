@@ -14,7 +14,7 @@ end
 r0 = r_avg - mean(L_t);
 r_est = r0 + L_t;
 
-pred_spikes = GenerateSpikes(r_est); % Por qué funciona con un 3 ahí?!
+pred_spikes = GenerateSpikes(r_est); 
 real_spikes = rho(tao+1:600000);
 interval = 300;
 total = floor(length(r_est)/interval)-1;
@@ -35,3 +35,18 @@ subplot(2,1,1)
 stem(stim(1:np),real_spikes(1:np),'r');  % verdaderos
 hold on
 stem(stim(1:np),pred_spikes(1:np),'b'); % generados
+
+% Creo que esto esta bien, pero no es lo que pide la consigna :P
+figure();
+rks = zeros(1,101);
+for defasaje = 0:100
+    rks(defasaje+1) = Correlation(pred_spikes, real_spikes, defasaje, mean(pred_spikes), mean(real_spikes));
+end
+plot(rks, 'x');
+
+% figure();
+% rks = zeros(1,101);
+% for defasaje = 0:100
+%     rks(defasaje+1) = Autocorrelation(pred_spikes, defasaje, mean(pred_spikes));
+% end
+% plot(rks, 'x');
