@@ -23,4 +23,5 @@ for d = 0:10
     end
     correctness(d+1) = mean(stim);
 end
-plot(correctness);
+correctness
+PlotValue(correctness, 'Discriminación de puntos aleatorios', 'd (Discriminabilidad)', 'Porcentaje de respuestas correctas');

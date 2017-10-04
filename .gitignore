@@ -1,2 +1,4 @@
 *.mat
 /Images/*
+.DS_Store
+
