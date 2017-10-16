@@ -3,7 +3,7 @@
 Iapp = [0.01:0.001:3].* 10e-9;
 rates_i = zeros(size(Iapp));
 
-Gl = [0.01:0.001:3].*10e9;
+Gl = [0.01:0.001:3].*10e10;
 rates_g = zeros(size(Gl));
 
 for i = 1:length(rates_i)
@@ -19,10 +19,10 @@ plot(Gl, rates_g);
 
 % TODO: Revisar
 function r = Rate_i(i)
-    Rm = 10e6;
-    Vreset = -80e-3;
-    Vth = -40e-3;
-    Ve = -70e-3;
+    Rm = 90e6;
+    Vreset = -65e-3;
+    Vth = -50e-3;
+    Ve = -65e-3;
     Taum = 10e-3;
     r = 0;
     if (Vth < Ve + i * Rm)
@@ -32,11 +32,14 @@ end
 
 % Problem 2 code for part b
 function r = Rate_g(g)
-%     Vreset = -80e-3;
-    Vreset = -60e-3;
-    Vth = -40e-3;
-    Ve = -70e-3;
-    Cm = 10e-3 / 10e6;
-    l = log((Vth - Ve) / (Vreset - Ve));
-    r = (-Cm / g * l)^-1;
+    Vreset = -65e-3;
+    Vth = -50e-3;
+    Ve = -65e-3;
+    Rm = 90e6;
+    Tm = 30e-3;
+    gmTerm = 1 + g* Rm;
+    Vsyn = -50e-3;
+    l = log((-gmTerm*Vth - Ve + g* Rm*Vsyn) / (-gmTerm*Vreset - Ve + g* Rm*Vsyn));
+    r = (-Tm * gmTerm * l)^-1;
+    
 end
