@@ -29,4 +29,10 @@ for i = 2:length(spikes)
         spikes(i) = V_inf + (spikes(i-1) - V_inf) * pre_exp;
     end
 end 
+figure();
 plot(time(1 : end_position), spikes(1 : end_position));
+hold on 
+title("Disparos generados por inyección de corriente",'fontsize', 16);
+xlabel("t [s]",'fontsize', 14);
+ylabel("V [V]",'fontsize', 14);
+hold off

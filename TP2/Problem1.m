@@ -8,6 +8,7 @@ Taum = 10e-3;
 totalTime = 1;
 VmSize = ceil(totalTime/dt);
 Vm = zeros(VmSize, 1);
+Vm(1) = Vreset;
 % rmod = sqrt(1 + 4 * Taum * (Ve + Rm*Im)) / (2*Taum);
 for i = 1:VmSize
 %     A = exp(-i/(2*Taum));
@@ -18,5 +19,14 @@ for i = 1:VmSize
         Vm(i+1) = Vreset;
     end
 end
+time = (0:VmSize)*dt;
 
+% Gráfico
+figure();
 plot(Vm);
+plot(time, Vm);
+hold on 
+title("Disparos generados por inyección de corriente",'fontsize', 16);
+xlabel("t [s]",'fontsize', 14);
+ylabel("V [V]",'fontsize', 14);
+hold off
