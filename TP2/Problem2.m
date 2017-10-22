@@ -1,9 +1,9 @@
 % Problem 2 code for part a
 % I should be in nA
-Iapp = [0.01:0.001:3].* 10e-2;
+Iapp = [0.01:0.001:3].* 10e-10;
 rates_i = zeros(size(Iapp));
 
-Gl = [0.01:0.001:3].*10e-2;
+Gl = [0.01:0.001:3].*10e-7;
 rates_g = zeros(size(Gl));
 
 for i = 1:length(rates_i)
@@ -44,9 +44,9 @@ function r = Rate_g(g)
     Rm = 90e6;
     Tm = 10e-3;
     gmTerm = 1 + g* Rm;
-    Vsyn = -40e-3;
+    Vsyn = -55e-3;
     r=0;
-    log_argument = (gmTerm*Vth - Ve - g* Rm*Vsyn) / (gmTerm*Vreset - Ve - g* Rm*Vsyn)
+    log_argument = abs((gmTerm*Vth - Ve - g* Rm*Vsyn) / (gmTerm*Vreset - Ve - g* Rm*Vsyn))
     if ((0 < log_argument) && (log_argument < 1)) 
         r = (-Tm / gmTerm * log(log_argument))^-1    
     end
