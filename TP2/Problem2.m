@@ -46,8 +46,6 @@ function r = Rate_g(g)
     gmTerm = 1 + g* Rm;
     Vsyn = -55e-3;
     r=0;
-    log_argument = abs((gmTerm*Vth - Ve - g* Rm*Vsyn) / (gmTerm*Vreset - Ve - g* Rm*Vsyn))
-    if ((0 < log_argument) && (log_argument < 1)) 
-        r = (-Tm / gmTerm * log(log_argument))^-1    
-    end
+    log_argument = abs((gmTerm*Vth - Ve - g* Rm*Vsyn) / (gmTerm*Vreset - Ve - g* Rm*Vsyn));
+    r = (-Tm / gmTerm * log(log_argument))^-1;
 end
