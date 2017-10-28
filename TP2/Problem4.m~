@@ -1,0 +1,58 @@
+% % Is missing to use lambda 0.9 and lambda 0.99
+[ref, stim, dv, v, delta, trials] = ReinforcementLearning(0.5, 260, 5);
+plotParams(ref, stim, dv, v, delta, trials, 5);
+plot3D(delta, trials, 5, 'Error de aprendizaje para L = 0.5');
+[ref, stim, dv, v, delta, trials] = ReinforcementLearning(0.9, 260, 5);
+plot3D(delta, trials, 5, 'Error de aprendizaje para L = 0.9');
+[ref, stim, dv, v, delta, trials] = ReinforcementLearning(0.99, 260, 5);
+plot3D(delta, trials, 5, 'Error de aprendizaje para L = 0.99');
+
+function plotParams(r, u, dv, v, delta, trials, dt)
+    delta = delta';
+    totalSize = length(delta(1, :));
+    time = (1:totalSize)* dt; 
+    
+    figure();
+    subplot(5, 2, 1);
+    plot(time, u(1:totalSize));
+    
+    subplot(5, 2, 2);
+    plot(time, u(1:totalSize));
+    
+    subplot(5, 2, 3);
+    plot(time, r(1:totalSize));
+    
+    subplot(5, 2, 4);
+    plot(time, r(1:totalSize));
+    
+    subplot(5, 2, 5);
+    plot(time, zeros(1, totalSize));
+    
+    subplot(5, 2, 6);
+    plot(time, v(1:totalSize));
+    
+    subplot(5, 2, 7);
+    plot(time, zeros(1, totalSize));
+    
+    subplot(5, 2, 8);
+    plot(time, dv(1:totalSize));
+    
+    subplot(5, 2, 9);
+    plot(time, delta(1, 1:totalSize));
+    
+    subplot(5, 2, 10);
+    plot(time, delta(trials, 1:totalSize));
+end
+
+function plot3D(delta, trials, dt, title)
+    delta = delta';
+    totalSize = length(delta(1, :));
+    time = (1:totalSize)* dt;
+  
+    figure();
+    surf(time, 1:trials, delta);
+    title(title,'fontsize',14);
+    xlabel('tiempo (ms)','fontsize',12);
+    ylabel('intentos','fontsize',12);
+    zlabel('error','fontsize',12);
+end

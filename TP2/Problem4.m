@@ -1,51 +1,71 @@
 % % Is missing to use lambda 0.9 and lambda 0.99
-[dv, v, delta, u_, trials] = learn(0.5);
+[ref, stim, dv, v, delta, trials] = ReinforcementLearning(0.5, 260, 5);
+plotParams(ref, stim, dv, v, delta, trials, 5);
+plot3D(delta, trials, 5, 'Error de aprendizaje para L = 0.5');
+[ref, stim, dv, v, delta, trials] = ReinforcementLearning(0.9, 260, 5);
+plot3D(delta, trials, 5, 'Error de aprendizaje para L = 0.9');
+[ref, stim, dv, v, delta, trials] = ReinforcementLearning(0.99, 260, 5);
+plot3D(delta, trials, 5, 'Error de aprendizaje para L = 0.99');
 
-% % This plots needs to be organized
-
-
-% figure();
-% plot(v);
-% figure()
-% plot(d(:,1));
-% figure()
-% plot(d(:,k));
-% figure()
-% plot(dv);
-
-% Plot delta 3D
-surf(5*(0:50),1:k,d');
-
-function [dv, v, delta, u_, trials] = learn(lambda)
-
-%     Update fix numbers 51 and 52
-
-    v = zeros(1,52);
-    dv = zeros(1,52);
-    u_ = zeros(1,51);
-    w = zeros(1,51);
-    delta = zeros(51,1);
-    epsilon = 0.2;
-    trials = 0;
-    while(trials<=1 || norm(delta(:,trials)-delta(:,trials-1))>1e-5)
-        trials = trials+1;
-        for t = 2:51
-            u_(t) = lambda * u_(t-1) + (1-lambda) * u(t);
-            v(t) = w(1:t) * u(t:-1:1)';
-            dv(t) = v(t+1) - v(t);
-            delta(t,trials)=  r(t) +  dv(t);
-            w(1:t) =  w(1:t) + epsilon * d(t,trials) * u_(t:-1:1); 	
-        end
-    end
+function plotParams(r, u, dv, v, delta, trials, dt)
+    delta = delta';
+    totalSize = length(delta(1, :));
+    time = (1:totalSize)* dt; 
+    
+    figure();
+    subplot(5, 2, 1);
+    plot(time, u(1:totalSize), '*');
+    ylabel('u','fontsize',14);
+    
+    subplot(5, 2, 2);
+    plot(time, u(1:totalSize), '*');
+    ylabel('u','fontsize',14);
+    
+    subplot(5, 2, 3);
+    plot(time, r(1:totalSize), '*');
+    ylabel('r','fontsize',14);
+    
+    subplot(5, 2, 4);
+    plot(time, r(1:totalSize), '*');
+    ylabel('r','fontsize',14);
+    
+    subplot(5, 2, 5);
+    plot(time, zeros(1, totalSize), '*');
+    ylabel('v','fontsize',14);
+    
+    subplot(5, 2, 6);
+    plot(time, v(1:totalSize), '*');
+    ylabel('v','fontsize',14);
+    
+    subplot(5, 2, 7);
+    plot(time, zeros(1, totalSize), '*');
+    ylabel('dV','fontsize',14);
+    
+    subplot(5, 2, 8);
+    plot(time, dv(1:totalSize), '*');
+    ylabel('dV','fontsize',14);
+    
+    subplot(5, 2, 9);
+    plot(time, delta(1, 1:totalSize), '*');
+    xlabel('Tiempo [ms]','fontsize',14);
+    ylabel('Delta','fontsize',14);
+    
+    subplot(5, 2, 10);
+    plot(time, delta(trials, 1:totalSize), '*');
+    xlabel('Tiempo [ms]','fontsize',14);
+    ylabel('Delta','fontsize',14);
 end
 
-
-function stim = u(t)
-    t = t * 5;
-    stim = (t == 100);
-end
-
-function ref = r(t)
-    t = t * 5;
-    ref = 1 / 5 * ((t <= 210) && (t >= 200));
+function plot3D(delta, trials, dt, graph_title)
+    delta = delta';
+    totalSize = length(delta(1, :));
+    time = (1:totalSize)* dt;
+  
+    figure();
+    surf(time, 1:trials, delta, 'LineStyle','none');
+    title(graph_title,'fontsize',16);
+    xlabel('Tiempo [ms]','fontsize',14);
+    ylabel('Cantidad de intentos','fontsize',14);
+    % Le faltan las unidades :/
+    zlabel('Error','fontsize',12);
 end
